@@ -1,24 +1,23 @@
 const knex = require('knex');
-const knexConfig = require('./knexfile.js');
+const knexConfig = require('../knexfile.js');
 const db = knex(knexConfig.development)
 
 module.exports = {
-    add,
-    find,
-    findByName
+    addUser,
+    findAllUsers,
+    findByUsername,
 }
 
-function add(user){
+function addUser(user){
     return db('users')
         .insert(user);
 }
 
-function find(){
+function findAllUsers(){
     return db('users');
 }
 
-function findByName(username){
+function findByUsername(username){
     return db('users')
         .where(username);
 }
-

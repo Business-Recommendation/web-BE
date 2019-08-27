@@ -8,7 +8,7 @@ module.exports = (user) => {
         username: user.username
     }
     const options = {
-        expiresIn: '1h'
+        expiresIn: '1d'
     }
     return jwt.sign(payload, secrets.jwtSecret, options)
 }

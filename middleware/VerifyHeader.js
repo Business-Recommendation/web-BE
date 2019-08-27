@@ -1,4 +1,4 @@
-const secrets = require('./secrets')
+const secrets = require('../secrets')
 const jwt = require('jsonwebtoken')
 
 module.exports = function restricted (req, res, next){

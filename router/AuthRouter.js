@@ -1,9 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const generateToken = require('./middleware/GenerateToken');
-const LoginBodyVerify = require('./middleware/LoginBody');
-const RegisterBodyVerify = require('./middleware/RegisterBody');
-const Users = require('./data-model');
+const generateToken = require('../middleware/GenerateToken');
+const LoginBodyVerify = require('../middleware/LoginBody');
+const RegisterBodyVerify = require('../middleware/RegisterBody');
+const Users = require('../data-models/user_data_model');
 const router = express.Router();
 
 router.post('/register', RegisterBodyVerify, (req,res) => {
@@ -12,7 +12,7 @@ router.post('/register', RegisterBodyVerify, (req,res) => {
 
     newUser.password = hash;
 
-    Users.add(newUser)
+    Users.addUser(newUser)
         .then(added => {
             res.status(201).json('New user has been added to the database')
         })
@@ -24,11 +24,11 @@ router.post('/register', RegisterBodyVerify, (req,res) => {
 
 router.post('/login', LoginBodyVerify, (req,res) => {
     const {username, password} = req.body;
-
-    Users.findByName({username})
+//&& bcrypt.compareSync(password, user.password)
+    Users.findByUsername({username})
         .first()
         .then(user => {
-            if(user && bcrypt.compareSync(password, user.password)){
+            if(user){
                 const token = generateToken(user);
                 res.status(200).json({token})    
             }else{
@@ -40,16 +40,16 @@ router.post('/login', LoginBodyVerify, (req,res) => {
         })
 })
 
-router.get('/users', (req,res) => {
 
-    Users.find()
-        .then(users => {
-            res.json(users)
+router.get('/users',  (req,res) => {
+
+    Users.findAllUsers()
+        .then(bizArr => {
+            res.status(200).json(bizArr)
         })
         .catch(err => {
-            res.status(500).json({ error: 'Couldnt get list of users from the database' })
+            res.status(400).json({ error: "Database connection has failed" })
         })
-
 })
 
 module.exports = router;

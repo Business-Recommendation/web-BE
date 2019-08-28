@@ -1,10 +1,10 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('terms').del()
+  return knex('data').del()
     .then(function () {
       // Inserts seed entries
-      return knex('terms').insert([
+      return knex('data').insert([
         {id: 1, term: 'dim'},
         {id: 2, term: 'rude'},
         {id: 3, term: 'overpriced'},

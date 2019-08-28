@@ -7,7 +7,7 @@ exports.up = function(knex) {
                 .unsigned()
                 .notNullable()
                 .references('id')
-                .inTable('terms')
+                .inTable('data')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
             tbl.integer('business_id')

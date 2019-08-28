@@ -1,25 +1,28 @@
 const express = require('express');
 
 const Biz = require('../data-models/biz_data_model');
+const verifyHeader = require('../middleware/VerifyHeader');
 const router = express.Router();
 
-router.post('/listings',  (req,res) => {
-    const newListing = req.body;
+router.post('/listings', verifyHeader, (req,res) => {
+    const newBiz = req.body;
+    const userID = req.jwtToken.subject;
+    console.lo
 
-    Biz.addBiz(newListing)
+    Biz.addBiz(newBiz, userID)
         .then(added => {
-            res.status(201).json('New bizness has been added to the database')
+            res.status(201).json({ message: 'Biz successfully added'})
         })
         .catch(err => {
             res.status(400).json({ error: "Database connection has failed" })
         })
 })
 
-router.get('/listings',  (req,res) => {
+router.get('/listings', verifyHeader, (req,res) => {
     const { username } = req.jwtToken;
-    console.log(req.jwtToken)
 
-    Biz.findBy({ username })
+
+    Biz.findBy(username)
         .then(bizArr => {
             res.status(200).json(bizArr)
         })
@@ -29,16 +32,34 @@ router.get('/listings',  (req,res) => {
 })
 
 
-router.delete('/listings/:id', (req, res) => {
-    const {id} = req.params
-    Biz.removeBiz({id})
+router.delete('/listings/:id', verifyHeader, (req, res) => {
+    const Bizid = req.params.id; 
+    const UserId = req.jwtToken.subject;
+
+    Biz.removeOnlyBiz(Bizid, UserId)
         .then(removedBiz => {
-            removedBiz.status(200).json(removedBiz)
+            res.status(200).json(removedBiz)
         })
         .catch(err => {
             res.status(500).json({ error: 'Couldnt remove Biz' })
         })
 })
+
+
+router.put('/listings/update/:id', verifyHeader, (req, res) => {
+    const changes = req.body; 
+    const Bizid = req.params.id;
+    const UserId = req.jwtToken.subject;
+
+    Biz.updateBiz(changes, Bizid, UserId)
+        .then(updatedBiz => {
+            res.status(200).json(updatedBiz)
+        })
+        .catch(err => {
+            res.status(500).json({ error: 'Couldnt update Biz' })
+        })
+})
+
 
 
 router.get('/', (req, res) => {

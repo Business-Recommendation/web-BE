@@ -201,3 +201,36 @@ http method: **[DELETE]**
 error: 'Couldnt remove Biz'
 }
 ```
+
+======================================================================
+
+**Update a User's Business**
+method url: **/api/biz/listings/:id**
+
+http method: **[PUT]**
+
+
+**Headers**
+
+| name          | type   | required | description                       | 
+| ------------- | ------ | -------- | --------------------------------- |
+| authorization | String | Yes      | token to Authorize user           |
+
+
+**Body**
+
+| name     | type   | required | description                       | 
+| -------- | ------ | -------- | --------------------------------- |
+| yelp_url | String | Yes      | Unique                            |
+
+
+**Response** 200 (ok)
+
+```
+1
+```
+
+500 (Unauthorized) **Example response**
+```
+error: 'Couldnt update Biz'
+```

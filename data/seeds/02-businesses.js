@@ -7,33 +7,27 @@ exports.seed = function(knex) {
       return knex('businesses').insert([
         {
           id: 1, 
-          name: 'Upstate', 
-          yelp_url: 'https://www.yelp.com/biz/upstate-new-york-2?osq=Restaurants'
+          name: 'Upstate'
         },
         {
           id: 2, 
-          name: 'Uglyduckling', 
-          yelp_url: 'https://www.yelp.com/biz/uglyduckling-brooklyn?osq=Restaurants'
+          name: 'Uglyduckling'
         },
         {
           id: 3, 
-          name: 'Atrium Dumbo', 
-          yelp_url: 'yelp.com/biz/atrium-dumbo-brooklyn?osq=Restaurants'
+          name: 'Atrium Dumbo'
         },
         {
           id: 4, 
-          name: 'GOGI 37', 
-          yelp_url: 'https://www.yelp.com/biz/gogi-37-new-york?osq=Restaurants'
+          name: 'GOGI 37'
         },
         {
           id: 5, 
-          name: 'North River Lobster Co', 
-          yelp_url: 'https://www.yelp.com/biz/north-river-lobster-co-new-york?osq=Restaurants'
+          name: 'North River Lobster Co' 
         },
         {
           id: 6, 
-          name: 'Per Se', 
-          yelp_url: 'https://www.yelp.com/biz/per-se-new-york?osq=Restaurants'
+          name: 'Per Se'
         },
       ]);
     });

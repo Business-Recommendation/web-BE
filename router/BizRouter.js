@@ -7,7 +7,6 @@ const router = express.Router();
 router.post('/listings', verifyHeader, (req,res) => {
     const newBiz = req.body;
     const userID = req.jwtToken.subject;
-    console.lo
 
     Biz.addBiz(newBiz, userID)
         .then(added => {

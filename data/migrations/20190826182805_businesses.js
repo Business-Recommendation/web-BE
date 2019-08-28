@@ -5,9 +5,6 @@ exports.up = function(knex) {
             tbl.increments('id');
             tbl.text('name')
                 .notNullable();
-            tbl.text('yelp_url')
-                .notNullable()
-                .unique();
         })
 };
 

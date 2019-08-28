@@ -17,6 +17,8 @@ exports.up = function(knex) {
                 .inTable('businesses')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
+            tbl.text('yelp_url')
+                .notNullable();
         })
 };
 

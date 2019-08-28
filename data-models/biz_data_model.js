@@ -65,11 +65,8 @@ function removeOnlyBiz(id, userId){
 
 function updateBiz(changes, id, userId){
     return db('users-businesses')   //query user table    //array of table 
-        .where({user_id: userId, business_id: id})
-        .then(res => {
-            console.log(res)
-        }) //filters user_id column for value
-        // .update(changes)
+        .where({user_id: userId, business_id: id})//filters user_id column for value
+        .update(changes)
 }
 
 

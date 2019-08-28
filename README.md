@@ -17,8 +17,8 @@ http method: **[POST]**
 ```
 {
     email: 'anthony@gmail.com',
-    username: 'john100',
-    password: 'jenkins'
+    username: 'Bobby',
+    password: 'password'
 }
 ```
 
@@ -42,8 +42,8 @@ http method: **[POST]**
 **Example**
 ```
 {
-    username: 'john100',
-    password: 'jenkins'
+    username: 'Bobby',
+    password: 'password'
 }
 ```
 
@@ -179,14 +179,6 @@ http method: **[DELETE]**
 | name          | type   | required | description                       | 
 | ------------- | ------ | -------- | --------------------------------- |
 | authorization | String | Yes      | token to Authorize user           |
-
-
-**Body**
-
-| name     | type   | required | description                       | 
-| -------- | ------ | -------- | --------------------------------- |
-| name     | String | Yes      |                                   |
-| yelp_url | String | Yes      | Unique                            |
 
 
 **Response** 200 (ok)

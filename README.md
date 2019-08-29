@@ -96,9 +96,38 @@ http method: **[POST]**
 **Response** 201 (ok)
 
 ```
-{
-  message: 'Biz successfully added'
-}
+[
+  {
+    "id": 5,
+    "name": "Smugglyduckling",
+    "data": [
+      {
+        "term": "awesome",
+        "highratingscore": 0.9,
+        "poorratingscore": 0.3,
+        "business_id": 5
+      },
+      {
+        "term": "friendly",
+        "highratingscore": 0.93,
+        "poorratingscore": 0.14,
+        "business_id": 5
+      },
+      {
+        "term": "value",
+        "highratingscore": 0.99,
+        "poorratingscore": 0.02,
+        "business_id": 5
+      },
+      {
+        "term": "awesome",
+        "highratingscore": 0.99,
+        "poorratingscore": 0.04,
+        "business_id": 5
+      }
+    ]
+  },
+]
 ```
 
 400 (Unauthorized) **Example response**
@@ -184,7 +213,38 @@ http method: **[DELETE]**
 **Response** 200 (ok)
 
 ```
-1
+[
+  {
+    "id": 5,
+    "name": "Smugglyduckling",
+    "data": [
+      {
+        "term": "awesome",
+        "highratingscore": 0.9,
+        "poorratingscore": 0.3,
+        "business_id": 5
+      },
+      {
+        "term": "friendly",
+        "highratingscore": 0.93,
+        "poorratingscore": 0.14,
+        "business_id": 5
+      },
+      {
+        "term": "value",
+        "highratingscore": 0.99,
+        "poorratingscore": 0.02,
+        "business_id": 5
+      },
+      {
+        "term": "awesome",
+        "highratingscore": 0.99,
+        "poorratingscore": 0.04,
+        "business_id": 5
+      }
+    ]
+  },
+]
 ```
 
 500 (Unauthorized) **Example response**
@@ -219,7 +279,38 @@ http method: **[PUT]**
 **Response** 200 (ok)
 
 ```
-1
+[
+  {
+    "id": 5,
+    "name": "Smugglyduckling",
+    "data": [
+      {
+        "term": "awesome",
+        "highratingscore": 0.9,
+        "poorratingscore": 0.3,
+        "business_id": 5
+      },
+      {
+        "term": "friendly",
+        "highratingscore": 0.93,
+        "poorratingscore": 0.14,
+        "business_id": 5
+      },
+      {
+        "term": "value",
+        "highratingscore": 0.99,
+        "poorratingscore": 0.02,
+        "business_id": 5
+      },
+      {
+        "term": "awesome",
+        "highratingscore": 0.99,
+        "poorratingscore": 0.04,
+        "business_id": 5
+      }
+    ]
+  },
+]
 ```
 
 500 (Unauthorized) **Example response**

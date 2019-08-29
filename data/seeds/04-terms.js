@@ -15,7 +15,13 @@ exports.seed = function(knex) {
         {id: 8, term: 'awesome'},
         {id: 9, term: 'vibe'},
         {id: 10, term: 'seating'},
-        {id: 11, term: 'delicious'}
+        {id: 11, term: 'delicious'},
+        {id: 12, term: 'deals'},
+        {id: 13, term: 'bad waiters'},
+        {id: 14, term: 'cold food'},
+        {id: 15, term: 'boring'},
+        {id: 16, term: 'too loud'},
+        {id: 17, term: 'disgusting'}
       ]);
     });
 };

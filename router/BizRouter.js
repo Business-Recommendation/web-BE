@@ -7,10 +7,11 @@ const router = express.Router();
 router.post('/listings', verifyHeader, (req,res) => {
     const newBiz = req.body;
     const userID = req.jwtToken.subject;
+    const { username } = req.jwtToken;
 
-    Biz.addBiz(newBiz, userID)
+    Biz.addBiz(newBiz, userID, username)
         .then(added => {
-            res.status(201).json({ message: 'Biz successfully added'})
+            res.status(201).json(added)
         })
         .catch(err => {
             res.status(400).json({ error: "Database connection has failed" })
@@ -34,8 +35,9 @@ router.get('/listings', verifyHeader, (req,res) => {
 router.delete('/listings/:id', verifyHeader, (req, res) => {
     const Bizid = req.params.id; 
     const UserId = req.jwtToken.subject;
+    const { username } = req.jwtToken;
 
-    Biz.removeOnlyBiz(Bizid, UserId)
+    Biz.removeOnlyBiz(Bizid, UserId, username)
         .then(removedBiz => {
             res.status(200).json(removedBiz)
         })
@@ -49,8 +51,9 @@ router.put('/listings/update/:id', verifyHeader, (req, res) => {
     const changes = req.body; 
     const Bizid = req.params.id;
     const UserId = req.jwtToken.subject;
+    const { username } = req.jwtToken;
 
-    Biz.updateBiz(changes, Bizid, UserId)
+    Biz.updateBiz(changes, Bizid, UserId, username)
         .then(updatedBiz => {
             res.status(200).json(updatedBiz)
         })

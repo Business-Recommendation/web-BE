@@ -99,7 +99,7 @@ http method: **[POST]**
 [
   {
     "id": 5,
-    "name": "Smugglyduckling",
+    "name": "Upstate Pizzeria",
     "data": [
       {
         "term": "awesome",
@@ -120,7 +120,7 @@ http method: **[POST]**
         "business_id": 5
       },
       {
-        "term": "awesome",
+        "term": "cool",
         "highratingscore": 0.99,
         "poorratingscore": 0.04,
         "business_id": 5
@@ -157,7 +157,7 @@ http method: **[GET]**
 [
   {
     "id": 5,
-    "name": "Smugglyduckling",
+    "name": "Upstate Pizzeria",
     "data": [
       {
         "term": "awesome",
@@ -178,7 +178,7 @@ http method: **[GET]**
         "business_id": 5
       },
       {
-        "term": "awesome",
+        "term": "cool",
         "highratingscore": 0.99,
         "poorratingscore": 0.04,
         "business_id": 5
@@ -216,7 +216,7 @@ http method: **[DELETE]**
 [
   {
     "id": 5,
-    "name": "Smugglyduckling",
+    "name": "Upstate Pizzeria",
     "data": [
       {
         "term": "awesome",
@@ -237,7 +237,7 @@ http method: **[DELETE]**
         "business_id": 5
       },
       {
-        "term": "awesome",
+        "term": "cool",
         "highratingscore": 0.99,
         "poorratingscore": 0.04,
         "business_id": 5
@@ -282,7 +282,7 @@ http method: **[PUT]**
 [
   {
     "id": 5,
-    "name": "Smugglyduckling",
+    "name": "Upstate Pizzeria",
     "data": [
       {
         "term": "awesome",
@@ -303,7 +303,7 @@ http method: **[PUT]**
         "business_id": 5
       },
       {
-        "term": "awesome",
+        "term": "cool",
         "highratingscore": 0.99,
         "poorratingscore": 0.04,
         "business_id": 5

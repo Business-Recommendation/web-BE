@@ -7,8 +7,7 @@ module.exports = {
     findBy,
     bizDB,
     updateBiz,
-    removeOnlyBiz,
-    addTerms
+    removeOnlyBiz
 }
 
 function addBiz(newBiz, userID, username){
@@ -25,23 +24,47 @@ function addBiz(newBiz, userID, username){
             .join('businesses', 'users-businesses.business_id', 'businesses.id') //join with biz table
             .select('businesses.id', 'businesses.name', 'users-businesses.yelp_url') //select biz id and name
             .where({username}) //users.username = username //filter biz array for specific user's listings
-            .then(array => { 
+            .then(biz_arr => { 
                 return db('data') // query terms table
                     .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
                     .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
                     .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id') //select term name, highrating, poorrating, business_id
-                    .then(term_array => {  
-                        const newArray = array.map(biz_object => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
-                            const termsInsideBiz = [];
-                            term_array.map(term_object => {
-                                if(biz_object.id === term_object.business_id){
-                                    termsInsideBiz.push(term_object)
-                                }
+                    .then(term_arr => {
+                        return db('data') // query terms table
+                        .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                        .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                        .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                        .orderBy('businesses-terms.highratingscore', 'DESC')
+                        .then(topHighScores => {
+                            return db('data') // query terms table
+                            .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                            .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                            .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                            .orderBy('businesses-terms.poorratingscore', 'DESC')
+                            .then(topPoorScores => {
+                                const newArr = biz_arr.map(biz_obj => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
+                                    const topHightermsInsideBiz = [];
+                                    const topPoortermsInsideBiz = [];
+                                    const dataObject ={};
+                                    topHighScores.map(term_obj => {
+                                        if(biz_obj.id === term_obj.business_id){
+                                            topHightermsInsideBiz.push(term_obj.term)
+                                        }
+                                    })
+                                    topPoorScores.map(term_obj => {
+                                        if(biz_obj.id === term_obj.business_id){
+                                            topPoortermsInsideBiz.push(term_obj.term)
+                                        }
+                                    })
+                                    dataObject['highratingterms'] = topHightermsInsideBiz;
+                                    dataObject['lowratingterms'] = topPoortermsInsideBiz;
+    
+                                    return {...biz_obj, data: dataObject}
+                                })
+                                return newArr;//terms: array of objects of related terms to business
                             })
-                            return {...biz_object, data: termsInsideBiz}
-                        })
-                        return newArray;//terms: array of objects of related terms to business
-                    }) 
+                        }) 
+                    })
             })
         })
 }
@@ -57,18 +80,42 @@ function findBy(username){
                 .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
                 .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
                 .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id') //select term name, highrating, poorrating, business_id
-                .then(term_arr => {  
-                    const newArr = biz_arr.map(biz_obj => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
-                        const termsInsideBiz = [];
-                        term_arr.map(term_obj => {
-                            if(biz_obj.id === term_obj.business_id){
-                                termsInsideBiz.push(term_obj)
-                            }
+                .then(term_arr => {
+                    return db('data') // query terms table
+                    .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                    .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                    .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                    .orderBy('businesses-terms.highratingscore', 'DESC')
+                    .then(topHighScores => {
+                        return db('data') // query terms table
+                        .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                        .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                        .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                        .orderBy('businesses-terms.poorratingscore', 'DESC')
+                        .then(topPoorScores => {
+                            const newArr = biz_arr.map(biz_obj => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
+                                const topHightermsInsideBiz = [];
+                                const topPoortermsInsideBiz = [];
+                                const dataObject ={};
+                                topHighScores.map(term_obj => {
+                                    if(biz_obj.id === term_obj.business_id){
+                                        topHightermsInsideBiz.push(term_obj.term)
+                                    }
+                                })
+                                topPoorScores.map(term_obj => {
+                                    if(biz_obj.id === term_obj.business_id){
+                                        topPoortermsInsideBiz.push(term_obj.term)
+                                    }
+                                })
+                                dataObject['highratingterms'] = topHightermsInsideBiz;
+                                dataObject['lowratingterms'] = topPoortermsInsideBiz;
+
+                                return {...biz_obj, data: dataObject}
+                            })
+                            return newArr;//terms: array of objects of related terms to business
                         })
-                        return {...biz_obj, data: termsInsideBiz}
-                    })
-                    return newArr;//terms: array of objects of related terms to business
-                }) 
+                    }) 
+                })
         })
 }
 
@@ -88,23 +135,47 @@ function removeOnlyBiz(id, userId, username){
             .join('businesses', 'users-businesses.business_id', 'businesses.id') //join with biz table
             .select('businesses.id', 'businesses.name', 'users-businesses.yelp_url') //select biz id and name
             .where({username}) //users.username = username //filter biz array for specific user's listings
-            .then(array => { 
+            .then(biz_arr => { 
                 return db('data') // query terms table
                     .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
                     .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
                     .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id') //select term name, highrating, poorrating, business_id
-                    .then(term_array => {  
-                        const newArray = array.map(biz_object => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
-                            const termsInsideBiz = [];
-                            term_array.map(term_object => {
-                                if(biz_object.id === term_object.business_id){
-                                    termsInsideBiz.push(term_object)
-                                }
+                    .then(term_arr => {
+                        return db('data') // query terms table
+                        .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                        .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                        .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                        .orderBy('businesses-terms.highratingscore', 'DESC')
+                        .then(topHighScores => {
+                            return db('data') // query terms table
+                            .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                            .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                            .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                            .orderBy('businesses-terms.poorratingscore', 'DESC')
+                            .then(topPoorScores => {
+                                const newArr = biz_arr.map(biz_obj => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
+                                    const topHightermsInsideBiz = [];
+                                    const topPoortermsInsideBiz = [];
+                                    const dataObject ={};
+                                    topHighScores.map(term_obj => {
+                                        if(biz_obj.id === term_obj.business_id){
+                                            topHightermsInsideBiz.push(term_obj.term)
+                                        }
+                                    })
+                                    topPoorScores.map(term_obj => {
+                                        if(biz_obj.id === term_obj.business_id){
+                                            topPoortermsInsideBiz.push(term_obj.term)
+                                        }
+                                    })
+                                    dataObject['highratingterms'] = topHightermsInsideBiz;
+                                    dataObject['lowratingterms'] = topPoortermsInsideBiz;
+    
+                                    return {...biz_obj, data: dataObject}
+                                })
+                                return newArr;//terms: array of objects of related terms to business
                             })
-                            return {...biz_object, data: termsInsideBiz}
-                        })
-                        return newArray;//terms: array of objects of related terms to business
-                    }) 
+                        }) 
+                    })
             })
         })
 }
@@ -123,35 +194,47 @@ function updateBiz(changes, id, userId, username){
             .join('businesses', 'users-businesses.business_id', 'businesses.id') //join with biz table
             .select('businesses.id', 'businesses.name', 'users-businesses.yelp_url') //select biz id and name
             .where({username}) //users.username = username //filter biz array for specific user's listings
-            .then(array => { 
+            .then(biz_arr => { 
                 return db('data') // query terms table
                     .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
                     .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
                     .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id') //select term name, highrating, poorrating, business_id
-                    .then(term_array => {  
-                        const newArray = array.map(biz_object => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
-                            const termsInsideBiz = [];
-                            term_array.map(term_object => {
-                                if(biz_object.id === term_object.business_id){
-                                    termsInsideBiz.push(term_object)
-                                }
+                    .then(term_arr => {
+                        return db('data') // query terms table
+                        .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                        .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                        .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                        .orderBy('businesses-terms.highratingscore', 'DESC')
+                        .then(topHighScores => {
+                            return db('data') // query terms table
+                            .join('businesses-terms', 'data.id', 'businesses-terms.term_id') //join with bizterms intermediary table
+                            .join('businesses', 'businesses-terms.business_id', 'businesses.id') //join with biz table 
+                            .select('data.term', 'businesses-terms.highratingscore', 'businesses-terms.poorratingscore', 'businesses-terms.business_id')
+                            .orderBy('businesses-terms.poorratingscore', 'DESC')
+                            .then(topPoorScores => {
+                                const newArr = biz_arr.map(biz_obj => { //created new Arr with an additional key for each obj -----> ('terms': [termsdata])
+                                    const topHightermsInsideBiz = [];
+                                    const topPoortermsInsideBiz = [];
+                                    const dataObject ={};
+                                    topHighScores.map(term_obj => {
+                                        if(biz_obj.id === term_obj.business_id){
+                                            topHightermsInsideBiz.push(term_obj.term)
+                                        }
+                                    })
+                                    topPoorScores.map(term_obj => {
+                                        if(biz_obj.id === term_obj.business_id){
+                                            topPoortermsInsideBiz.push(term_obj.term)
+                                        }
+                                    })
+                                    dataObject['highratingterms'] = topHightermsInsideBiz;
+                                    dataObject['lowratingterms'] = topPoortermsInsideBiz;
+    
+                                    return {...biz_obj, data: dataObject}
+                                })
+                                return newArr;//terms: array of objects of related terms to business
                             })
-                            return {...biz_object, data: termsInsideBiz}
-                        })
-                        return newArray;//terms: array of objects of related terms to business
-                    }) 
+                        }) 
+                    })
             })
-        })
-}
-
-
-
-//what happens when a user updates restaurant that another person also owns?
-//changes all entry names 
-
-function addTerms(newTerms){
-    return db('terms')
-        .then(res => {
-            console.log(res)
         })
 }

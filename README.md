@@ -257,7 +257,7 @@ error: 'Couldnt remove Biz'
 ======================================================================
 
 **Update a User's Business**
-method url: **/api/biz/listings/:id**
+method url: **/api/biz/listings/update/:id**
 
 http method: **[PUT]**
 

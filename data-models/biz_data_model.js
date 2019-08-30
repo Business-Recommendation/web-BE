@@ -1,13 +1,12 @@
-const knex = require('knex');
-const knexConfig = require('../knexfile.js');
-const db = knex(knexConfig.development)
+const db = require('../dbConfig');
 
 module.exports = {
     addBiz,
     findBy,
     bizDB,
     updateBiz,
-    removeOnlyBiz
+    removeOnlyBiz,
+    // findUserBiz
 }
 
 function addBiz(newBiz, userID, username){
@@ -238,3 +237,15 @@ function updateBiz(changes, id, userId, username){
             })
         })
 }
+
+
+// function findUserBiz(username){
+//     return db('users')   //query user table //in a where if not referencing the top table, (table_name.key)    
+//         .join('users-businesses', 'users.id', 'users-businesses.user_id') //join with userbiz intermediary table
+//         .join('businesses', 'users-businesses.business_id', 'businesses.id') //join with biz table
+//         .select('businesses.id', 'businesses.name', 'users-businesses.yelp_url') //select biz id and name
+//         .where({username}) //users.username = username //filter biz array for specific user's listings
+//         // .then(biz_arr => { 
+//         //     console.log(biz_arr)
+//         // })
+// }

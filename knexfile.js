@@ -6,7 +6,7 @@ localPg = {
   password: 'blah'
 };
 
-const productionDbConnection = proces.env.DATABASE_URL || localPg;
+const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
 

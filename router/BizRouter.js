@@ -31,6 +31,18 @@ router.get('/listings', verifyHeader, (req,res) => {
         })
 })
 
+router.get('/listings/get/:id', verifyHeader, (req,res) => {
+    const Bizid = req.params.id;
+
+    Biz.findBizByID(Bizid)
+        .then(bizArr => {
+            res.status(200).json(bizArr)
+        })
+        .catch(err => {
+            res.status(400).json({ error: "Database connection has failed" })
+        })
+})
+
 
 router.delete('/listings/:id', verifyHeader, (req, res) => {
     const Bizid = req.params.id; 

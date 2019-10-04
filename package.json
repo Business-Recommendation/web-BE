@@ -6,8 +6,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "jest --watch --verbose",
-    "heroku-postbuild": "npm install --production && knex migrate:latest && knex seed:run"
+    "test": "jest --watch --verbose"
   },
   "repository": {
     "type": "git",

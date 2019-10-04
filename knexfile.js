@@ -1,5 +1,5 @@
 // Update with your config settings.
-localPg = {
+const localPg = {
   host: "localhost",
   database: "Database",
   user: 'blah',

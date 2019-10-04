@@ -1,8 +1,8 @@
 const express = require('express');
-
+const router = express.Router();
 const Biz = require('../data-models/biz_data_model');
 const verifyHeader = require('../middleware/VerifyHeader');
-const router = express.Router();
+
 
 router.post('/listings', verifyHeader, (req,res) => {
     const newBiz = req.body;
@@ -14,7 +14,8 @@ router.post('/listings', verifyHeader, (req,res) => {
             res.status(201).json(added)
         })
         .catch(err => {
-            res.status(400).json({ error: "Database connection has failed" })
+            console.log(err)
+            res.status(500).json({ error: "Database connection has failed" })
         })
 })
 

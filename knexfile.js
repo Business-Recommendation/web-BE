@@ -29,15 +29,33 @@ module.exports = {
       }
     }
   },
-
   production: {
-    client: 'pg',
-    connection: productionDbConnection,
+    client: 'sqlite3',
+    connection: {
+      filename: './data/project.db3'
+    },
     migrations: {
       directory: './data/migrations'
     },
     seeds: {
       directory: './data/seeds'
     },
-  }
+    useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, done) => {
+        // runs after a connection is made to the sqlite engine
+        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
+      }
+    }
+  },
+//   production: {
+//     client: 'pg',
+//     connection: productionDbConnection,
+//     migrations: {
+//       directory: './data/migrations'
+//     },
+//     seeds: {
+//       directory: './data/seeds'
+//     },
+//   }
 };
